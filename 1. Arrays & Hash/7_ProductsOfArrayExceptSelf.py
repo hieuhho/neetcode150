@@ -44,6 +44,13 @@ class Solution:
             after *= nums[i]
         return ans
 
+# why use this?
+# reusing memory to minimize space and linear traversal with accumulation
+# not allocating any extra array besides ans, which is required output anyway.
+# only using:
+#     prefix (1 int)
+#     postfix (1 int)
+# Thus, space complexity = O(1) extra space.
 
 ## first approach
 class Solution:
