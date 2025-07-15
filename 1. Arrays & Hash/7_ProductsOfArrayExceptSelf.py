@@ -29,11 +29,18 @@ class Solution:
         ans = [1] * len(nums)
         before = 1
         after = 1
+        # First Pass: Build Prefix Product into ans
         for i in range(len(nums)):
+            # At each index i, prefix contains the product of all elements before index i, so we:
+            # Assign it to ans[i]
             ans[i] = before
+            # Then multiply it by nums[i] for the next step
             before *= nums[i]
         for i in range(len(nums) -1, -1, -1):
+            # postfix holds the product of all elements after i
+            # So you multiply ans[i] *= postfix
             ans[i] *= after
+            # update postfix for the next loop
             after *= nums[i]
         return ans
 
