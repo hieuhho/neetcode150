@@ -53,7 +53,7 @@ class Solution:
             while j < k:
                 two_sum = nums[j] + nums[k]
                 if two_sum == target:
-                    ans.append[nums[i], nums[j], nums[k]]
+                    ans.append([nums[i], nums[j], nums[k]])
                     j += 1
                     k -= 1
 
