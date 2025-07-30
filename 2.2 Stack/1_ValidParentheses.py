@@ -48,21 +48,20 @@ class Solution:
         # 3) if bracket is open, add to arr
         # return if arr is empty or not
         stack = []
-        open_bracket_dict = {
-            "(": ")",
-            "{": "}",
-            "[": "]"
+        bracket_dict = {
+            ")": "(",
+            "}": "{",
+            "]": "["
         }
-        close_bracket_dict = dict([(value, key) for key, value in open_bracket_dict.items()])
     
         for i in s:
-            if i in close_bracket_dict:
-                if stack[-1] != close_bracket_dict[i]:
-                    return False
-                else:
+            if i in bracket_dict:
+                if stack[-1] == bracket_dict[i]:
                     stack.pop()
+                else:
+                    return False
             else:
                 stack.append(i)
-        return not stack
+        return True if not stack else False
 
 
