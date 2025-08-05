@@ -45,3 +45,10 @@
 
 class Solution:
     def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+        # create hash of car position and speed
+        # we have to sort the hash by positions in reverse order, as then we can know when the closest car arrives
+            # this is because the closest car will always finish fist, if there is a faster car behind, it will join and become a fleet
+        # find the arrive time of car when it finishes
+        # if stack is empty (no arrive time in stack ans) add to ans
+        # if arrive time greater than the last time in the ans, add to ans
+
