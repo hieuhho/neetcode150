@@ -52,3 +52,10 @@ class Solution:
         # if stack is empty (no arrive time in stack ans) add to ans
         # if arrive time greater than the last time in the ans, add to ans
 
+        cars = sorted(zip(position, speed), reverse=True)
+        stack = []
+        for pos, spd in cars:
+            arrive_time = (target - pos) / spd
+            if not stack or arrive_time > stack[-1]:
+                stack.append(arrive_time)
+        return len(stack)
