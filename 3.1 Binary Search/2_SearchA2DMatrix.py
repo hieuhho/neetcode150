@@ -48,8 +48,10 @@ class Solution:
         rows_len = len(matrix)
         columns_len = len(matrix[0])
 
+        # this convert the 2D matrix to 1D
         start = 0
         end = rows_len * columns_len -1
+        # then we just search the 1D matrix
         while start <= end:
             mid_of_matrix = start + (end - start) // 2
             row = mid_of_matrix // columns_len # how many rows we have passed
