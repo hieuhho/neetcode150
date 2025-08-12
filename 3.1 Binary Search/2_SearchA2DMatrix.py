@@ -41,3 +41,24 @@ class Solution:
             else:
                 return target in matrix[mid_row]
         return False
+
+
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        rows_len = len(matrix)
+        columns_len = len(matrix[0])
+
+        start = 0
+        end = rows_len * columns_len -1
+        while start <= end:
+            mid_of_matrix = start + (end - start) // 2
+            row = mid_of_matrix // columns_len # how many rows we have passed
+            col = mid_of_matrix % columns_len # how far into the row
+            if target > matrix[row][col]:
+                start = mid_of_matrix + 1
+            elif target < matrix[row][col]:
+                end = mid_of_matrix - 1
+            else:
+                return True
+        return False
+
