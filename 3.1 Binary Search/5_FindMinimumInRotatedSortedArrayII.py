@@ -39,5 +39,15 @@
 
 # Follow up: This problem is similar to Find Minimum in Rotated Sorted Array, but nums may contain duplicates. Would this affect the runtime complexity? How and why?
 
- class Solution:
+class Solution:
     def findMin(self, nums: List[int]) -> int:
+        l, r = 0, len(nums) - 1
+        while l < r:
+            m = (l + r) // 2
+            if nums[m] < nums[r]:
+               r = m
+            elif nums[m] > nums[r]:
+               l = m + 1
+            else:
+               r -= 1
+        return nums[l]
