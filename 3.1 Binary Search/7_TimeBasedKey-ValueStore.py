@@ -62,3 +62,28 @@ class TimeMap:
                 recent = val
                 l = m + 1
         return recent
+
+
+class TimeMap:
+
+    def __init__(self):
+        self.key_store = {}
+
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        if key not in self.key_store:
+            self.key_store[key] = []
+        self.key_store[key].append((timestamp, value))
+
+    def get(self, key: str, timestamp: int) -> str:
+        ans = ""
+        values = self.key_store.get(key, [])
+        l, r = 0, len(values) - 1
+        while l <= r:
+            m = (l + r) // 2
+            ts, val = values[m]
+            if ts <= timestamp:
+                ans = val
+                l = m + 1
+            else:
+                r = m - 1
+        return ans
