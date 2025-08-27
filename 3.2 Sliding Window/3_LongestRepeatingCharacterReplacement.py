@@ -32,6 +32,12 @@ class Solution:
         for r in range(len(s)):
             count[s[r]] = 1 + count.get(s[r], 0)
             most_freq = max(most_freq, count[s[r]])
+            # (r - l + 1) is the window size
+            # most_freq number of the most common character inside that window
+            # (r - l + 1) - most_freq = number of characters to replace to make the whole window the same letter
+            # If that number is bigger than k, it means the window is too big for the allowed replacements k
+            # therefore we shrink the window from left (l += 1)
+            # the window size is then the longest it can be while keeping up with k
             while (r - l + 1) - most_freq > k:
                 count[s[l]] -= 1
                 l += 1
