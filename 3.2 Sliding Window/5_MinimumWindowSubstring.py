@@ -32,3 +32,36 @@
 
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
+        if t == "":
+            return ""
+        # init the count and size of res
+        t_count, window_count = {}, {}
+        res_window, res_len = [0, 0], float("infinity")
+
+        # get the t count
+        for letter in t:
+            t_count[letter] = 1 + t_count.get(letter, 0)
+
+        have, need = 0, len(t_count)
+        l = 0
+        for r in range(len(s)):
+            letter = s[r]
+            window_count[letter] = 1 + window_count.get(letter, 0)
+
+            # compare t count and window count
+            if letter in t_count and window_count[letter] == t_count[letter]:
+                have += 1
+
+            while have == need:
+                # update the res if the window len is less than res_len
+                if (r - l + 1) < res_len:
+                    res_window = [l, r]
+                    res_len = r - l + 1
+
+                # continue resize window
+                window_count[s[l]] -= 1
+                if s[l] in t_count and window_count[s[l]] < t_count[s[l]]:
+                    have -= 1
+                l += 1
+        l, r = res_window
+        return s[l: r + 1] if res_len != float("infinity") else ""
