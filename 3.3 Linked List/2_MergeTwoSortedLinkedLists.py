@@ -37,9 +37,17 @@
 
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        # Create a dummy node.
+        # This avoids special cases for handling the head of the merged list.
         dummy = ListNode()
+
+        # Tail always points to the *last* node in the merged list as we build it.
+        # It starts at dummy and moves forward step by step.
         tail = dummy
 
+        # While both lists still have nodes left, pick the smaller one.
+        # Attach the smaller node to the merged list
+        # Move list forward
         while list1 and list2:
             if list1.val < list2.val:
                 tail.next = list1
@@ -47,6 +55,15 @@ class Solution:
             else:
                 tail.next = list2
                 list2 = list2.next
+
+            # Advance tail to the node we just attached,
+            # so that the next insertion will happen after it.
             tail = tail.next
+
+
+        # At least one list is now empty.
+        # Attach the remainder of whichever list is not empty (list1 or list2).
         tail.next = list1 or list2
+
+        # Return the merged list, which starts at dummy.next (skip the dummy itself).
         return dummy.next
