@@ -60,16 +60,20 @@ class Solution:
         # reverse the second half
         prev_node = None
         while second_half:
-            next_node = second_half.next
-            second_half.next = prev_node
-            prev_node = second_half
-            second_half = next_node
+            next_node = second_half.next   # store next before breaking
+            second_half.next = prev_node   # reverse pointer
+            prev_node = second_half        # move prev forward
+            second_half = next_node        # move current forward
 
         # add in order
         first_half = head
         second_half = prev_node
         while second_half:
+            # Save next pointers before rewiring
             tmp1, tmp2 = first_half.next, second_half.next
+            # Link first_half → second_half
             first_half.next = second_half
+            # Link second_half → tmp1 (the original first_half.next)
             second_half.next = tmp1
+            # Advance both pointers
             first_half, second_half = tmp1, tmp2
