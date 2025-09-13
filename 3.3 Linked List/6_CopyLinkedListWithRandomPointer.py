@@ -42,6 +42,29 @@ class Node:
         self.next = next
         self.random = random
 """
+# for exammple:
+# A'(7) ──→ B'(13) ──→ C'(11)
+#   │         │          │
+#   ▼         ▼          ▼
+#  None      A'(7)      B'(13)
 
 class Solution:
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        if head is None:
+            return None
+        # Seed with {None: None} so we can safely map .next/.random when they are None
+        cloned_nodes = {None: None}
+        # Pass 1: clone each original node, with no next/random map: {A: A (7), B: B(13), C: C(11)}
+        current = head
+        while current:
+            cloned_nodes[current] = Node(current.val)
+            current = current.next
+
+        # Pass 2: assign next and random to the clones
+        current = head
+        while current:
+            cloned_node = cloned_nodes[current]                             # clone of current
+            cloned_node.next = cloned_nodes.get(current.next)               # set clone's .next | current.next = B => A.next = cloned_nodes['B'] = (B(13))
+            cloned_node.random = cloned_nodes.get(current.random)           # set clone's .random | current.random = None => A.random = cloned_nodes[None] = None
+            current = current.next
+        return cloned_nodes[head]
