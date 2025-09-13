@@ -37,3 +37,22 @@
 
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        # Dummy node handles deletion of the head cleanly
+        dummy = ListNode(0, head)
+        slow = dummy
+        fast = dummy
+
+        # 1) Create a gap of n between fast and slow
+        for _ in range(n):
+            fast = fast.next  # Given constraints, n is valid
+
+        # 2) Walk both until fast is at the last node
+        while fast.next:
+            fast = fast.next
+            slow = slow.next
+
+        # 3) Delete slow.next (the n-th from end)
+        slow.next = slow.next.next
+
+        # 4) Return the (possibly new) head
+        return dummy.next
