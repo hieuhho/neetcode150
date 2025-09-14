@@ -33,5 +33,49 @@
 #         self.val = val
 #         self.next = next
 
+# class Solution:
+#     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+#         # reverse the lists
+#         # sum as you go forward
+
+#         l1_rev = None
+#         current = l1
+#         while current:
+#             temp = current.next
+#             current.next = l1_rev
+#             l1_rev = current
+#             current = temp
+
+#         l2_rev = None
+#         current = l2
+#         while current:
+#             temp = current.next
+#             current.next = l2_rev
+#             l2_rev = current
+#             current = temp
+
+#         dummy = ListNode()
+#         tail = dummy
+#         while l1_rev:
+#             tail.next = ListNode(l1_rev.val + l2_rev.val)
+#             l1_rev = l1_rev.next
+#             l2_rev = l2_rev.next
+#             tail = tail.next
+#         return dummy.next
+
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode()
+        tail = dummy
+        carry = 0
+        while l1 or l2 or carry:
+            v1 = l1.val if l1 else 0
+            v2 = l2.val if l2 else 0
+            val = v1 + v2 + carry
+            carry = val // 10
+            val = val % 10
+            tail.next = ListNode(val)
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None
+            tail = tail.next
+        return dummy.next
