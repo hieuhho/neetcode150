@@ -2,7 +2,7 @@
 
 # Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
 
- 
+
 
 # Example 1:
 
@@ -23,20 +23,13 @@
 
 class Solution:
     def climbStairs(self, n: int) -> int:
-        dp = [-1] * (n + 1)
-        return self.solve(n, dp)
+        one_step, two_step = 1, 1
 
-    def solve(self, n, dp):
-        if n < 0:
-            return 0
-        if n == 0:
-            return 1
+        for i in range(n - 1):
+            temp = one_step
+            one_step = one_step + two_step
+            two_step = temp
 
-        if dp[n] != -1:
-            return dp[n]
-
-        dp[n] = self.solve(n - 1, dp) + self.solve(n - 2, dp)
-
-        return dp[n]
+        return one_step
 
 
