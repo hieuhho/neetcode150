@@ -45,3 +45,18 @@ class Solution:
             arr1[i] = max(arr1[i] + arr1[i - 2], arr1[i - 1])
             arr2[i] = max(arr2[i] + arr2[i - 2], arr2[i - 1])
         return max(arr1[-1], arr2[-1])
+
+# optimize
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        return max(nums[0], self.helper(nums[1:]), self.helper(nums[:-1]))
+
+    def helper(self, nums: List[int]) -> int:
+        start_1, start_2 = 0, 0
+        for i in nums:
+            new_max = max(i + start_1, start_2)
+            start_1 = start_2
+            start_2 = new_max
+        return start_2
