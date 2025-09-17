@@ -38,3 +38,21 @@
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
+        # dp[i] = minimum number of coins needed to make up amount i
+        # initialize with a large value (amount+1 acts like "infinity")
+        dp = [amount + 1] * (amount + 1)
+
+        # base case: 0 coins are needed to make amount 0
+        dp[0] = 0
+
+        # build the dp array bottom-up
+        for a in range(1, amount + 1):
+            for c in coins:
+                # if coin c can contribute to amount a
+                if a - c >= 0:
+                    # choose the better (fewer coins) option:
+                    # either keep current dp[a] or use coin c plus dp[a-c]
+                    dp[a] = min(dp[a], 1 + dp[a - c])
+
+        # if dp[amount] was updated, return it; otherwise return -1 (impossible)
+        return dp[amount] if dp[amount] != amount + 1 else -1
