@@ -43,32 +43,54 @@ class Solution:
         l1 = len(nums1)
         l2 = len(nums2)
 
+        # Always do the binary search on the smaller array.
+        # Why? Because the time complexity is O(log(min(l1, l2))).
+        # If nums1 is longer, we swap them so nums1 is always the shorter one.
         if l1 > l2:
             return self.findMedianSortedArrays(nums2, nums1)
 
-        max_len = l1 + l2
-        half_len = max_len // 2
+        max_len = l1 + l2                  # total elements across both arrays
+        half_len = max_len // 2            # "halfway point" index across both arrays combined
 
+        # We are going to binary search inside nums1
+        # The search range is indices [0 .. l1-1]
         l = 0
         r = l1 - 1
 
         while True:
-            i = (l + r) // 2 # nums1 middle
-            j = half_len - i - 2 # num2 left side
+            # Partition nums1 at index i. Think of i as "the last index on the left side of nums1".
+            i = (l + r) // 2
 
-            nums1_left = nums1[i] if i >= 0 else float("-infinity")
-            nums1_right = nums1[i + 1] if (i + 1) < len(nums1) else float("infinity")
-            nums2_left = nums2[j] if j >= 0 else float("-infinity")
-            nums2_right = nums2[j + 1] if (j + 1) < len(nums2) else float("infinity")
+            # Partition nums2 so that left halves together hold half_len elements.
+            # j is "the last index on the left side of nums2".
+            # The -2 is because both i and j are treated as left indices, not counts.
+            j = half_len - i - 2
 
+            # Values just to the left/right of the partitions.
+            # If the partition is empty on one side, use -inf/+inf as placeholders.
+            nums1_left  = nums1[i]     if i >= 0 else float("-infinity")
+            nums1_right = nums1[i + 1] if (i + 1) < l1 else float("infinity")
+            nums2_left  = nums2[j]     if j >= 0 else float("-infinity")
+            nums2_right = nums2[j + 1] if (j + 1) < l2 else float("infinity")
+
+            # Check if we have a valid partition:
+            #   - All left values <= all right values
             if nums1_left <= nums2_right and nums2_left <= nums1_right:
+                # Case 1: odd total length
+                # The median is simply the *first element on the right side*.
                 if max_len % 2:
                     return min(nums1_right, nums2_right)
+                # Case 2: even total length
+                # The median is the average of the *largest left value* and the *smallest right value*.
                 else:
                     return (max(nums1_left, nums2_left) + min(nums1_right, nums2_right)) / 2
+
+            # If the left side of nums1 is too large, move the partition left.
             elif nums1_left > nums2_right:
                 r = i - 1
+            # Otherwise, move the partition right.
             else:
                 l = i + 1
+
 
 
