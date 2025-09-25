@@ -71,10 +71,10 @@ class Solution:
         while l1 or l2 or carry:
             v1 = l1.val if l1 else 0
             v2 = l2.val if l2 else 0
-            val = v1 + v2 + carry
-            carry = val // 10
-            val = val % 10
-            tail.next = ListNode(val)
+            sum_value = v1 + v2 + carry
+            carry = sum_value // 10 # find the carry of the sum (15 -> 1)
+            sum_value = sum_value % 10 # find the remainder of the sum (15 -> 5)
+            tail.next = ListNode(sum_value)
             l1 = l1.next if l1 else None
             l2 = l2.next if l2 else None
             tail = tail.next
