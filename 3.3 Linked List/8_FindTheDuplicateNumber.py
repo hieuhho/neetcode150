@@ -36,15 +36,17 @@ class Solution:
 
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
-        s = nums[0]
-        f = nums[nums[0]]
+        s = nums[0]                 # slow moves 1 step each time
+        f = nums[nums[0]]           # fast moves 2 steps each time
         while s != f:
             s = nums[s]
             f = nums[nums[f]]
-            # break when s == f
+            # break when s == f     # can be the same value but not duplicate. When slow and fast meet, how far it takes to walk from the start (index 0) to the duplicate (entry) = How far it takes to walk from the meeting spot back to the duplicate (entry).
 
-        f = 0
+        f = 0                       # reset fast pointer to the start
         while s != f:
             s = nums[s]
             f = nums[f]
+        # Both pointers meet at the duplicate number
+        # distance(start → duplicate) = distance(meeting → duplicate)
         return s
