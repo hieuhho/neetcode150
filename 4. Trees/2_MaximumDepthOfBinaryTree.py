@@ -30,3 +30,14 @@
 
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
+        stack = [[root, 1]]
+        depth = 0
+
+        while stack:
+            node, level = stack.pop()
+
+            if node:
+                depth = max(depth, level)
+                stack.append([node.left, level + 1])
+                stack.append([node.right, level + 1])
+        return depth
