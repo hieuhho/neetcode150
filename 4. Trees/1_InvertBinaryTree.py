@@ -41,3 +41,28 @@ class Solution:
         self.invertTree(root.left)
         self.invertTree(root.right)
         return root
+
+
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:
+            return None
+
+        # add root to stack
+        stack = [root]
+
+        while stack:
+            # Take the last node added (DFS order)
+            node = stack.pop()
+
+            # Swap left and right children
+            node.left, node.right = node.right, node.left
+
+            # add the child nodes to process
+            if node.left:
+                stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
+
+        # Return root (tree is inverted in place)
+        return root
