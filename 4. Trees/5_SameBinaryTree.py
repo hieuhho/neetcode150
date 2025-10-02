@@ -36,3 +36,19 @@
 
 class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        def dfs(p, q):
+            if (not p and q) or (p and not q):
+                return False
+
+            if p == q == None:
+                return True
+            elif p.val != q.val:
+                return False
+
+            left = dfs(p.left, q.left)
+            right = dfs(p.right, q.right)
+
+            if not left or not right:
+                return False
+            return True
+        return dfs(p, q)
