@@ -36,7 +36,7 @@ class Solution:
 
         for num, count in seen.items():
             freq[count].append(num)
-        
+
         ans = []
         for i in reversed(freq):
             for num in i:
@@ -45,4 +45,4 @@ class Solution:
                     return ans
 
 
-            
+
