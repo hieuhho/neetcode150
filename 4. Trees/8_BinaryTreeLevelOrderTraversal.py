@@ -33,13 +33,15 @@
 #         self.right = right
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if root is None:
+            return []
         ans = []
-
         queue = deque([root])
+
         while queue:
             queue_len = len(queue)
             current_depth = []
-            for i in range(queue_len):
+            for _ in range(queue_len):
                 node = queue.popleft()
                 if node:
                     current_depth.append(node.val)
