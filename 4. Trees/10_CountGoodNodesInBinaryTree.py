@@ -31,3 +31,16 @@
 
 class Solution:
     def goodNodes(self, root: TreeNode) -> int:
+        def dfs(node, high_val):
+            if not node:
+                return 0
+            ans = 1 if node.val >= high_val else 0
+
+            if node.val > high_val:
+                high_val = node.val
+            if node.left:
+                ans += dfs(node.left, high_val)
+            if node.right:
+                ans += dfs(node.right, high_val)
+            return ans
+        return dfs(root, root.val)
