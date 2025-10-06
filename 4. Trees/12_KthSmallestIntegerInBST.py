@@ -50,3 +50,22 @@ class Solution:
 
         dfs(root)
         return ans
+
+
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        stack = []
+        current = root
+
+        while stack or current:
+            while current:
+                # add node to stack, go far left (smaller values)
+                stack.append(current)
+                current = current.left
+            # popped node is smallest node in stack
+            current = stack.pop()
+            k -= 1
+            if k == 0:
+                return current.val
+            # continue to right subtree
+            current = current.right
