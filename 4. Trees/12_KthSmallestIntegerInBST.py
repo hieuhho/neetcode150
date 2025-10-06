@@ -34,3 +34,19 @@
 
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        count = k
+        ans = root.val
+        def dfs(node):
+            if not node:
+                return
+
+            nonlocal count, ans
+            dfs(node.left)
+            count -= 1
+            if count == 0:
+                ans= node.val
+                return
+            dfs(node.right)
+
+        dfs(root)
+        return ans
