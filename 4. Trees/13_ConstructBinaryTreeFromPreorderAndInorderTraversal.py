@@ -44,3 +44,23 @@ class Solution:
         root.right = self.buildTree(preorder[mid + 1:], inorder[mid + 1:])
 
         return root
+
+
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        # use preorder as iterator, each recursive call consumes the next root value.
+        idx = iter(preorder)
+        # split the tree into left/right subtrees using idx
+        hash_map = {val: idx for idx, val in enumerate(inorder)}
+        def dfs(left_val, right_val):
+            if left_val > right_val:
+                return None
+
+             # The next preorder value is always the root of the current subtree.
+            root_val = next(idx)
+            node = TreeNode(root_val)
+            mid = hash_map[root_val]
+            node.left = dfs(left_val, mid - 1)
+            node.right = dfs(mid + 1, right_val)
+            return node
+        return dfs(0, len(inorder) - 1)
