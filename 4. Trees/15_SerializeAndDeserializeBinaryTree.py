@@ -36,7 +36,30 @@ class Codec:
 
     # Encodes a tree to a single string.
     def serialize(self, root: Optional[TreeNode]) -> str:
-
+        ans = []
+        def dfs(node):
+            if not node:
+                ans.append("null")
+                return
+            ans.append(str(node.val))
+            dfs(node.left)
+            dfs(node.right)
+        dfs(root)
+        return ",".join(ans)
 
     # Decodes your encoded data to tree.
     def deserialize(self, data: str) -> Optional[TreeNode]:
+        vals = data.split(",")
+
+        count = 0
+        def dfs():
+            nonlocal count
+            if vals[count] == "null":
+                count += 1
+                return None
+            node = TreeNode(int(vals[count]))
+            count += 1
+            node.left = dfs()
+            node.right = dfs()
+            return node
+        return dfs()
