@@ -44,23 +44,21 @@
 class Solution:
     def combinationSum(self, nums: List[int], target: int) -> List[List[int]]:
         ans = []
-
-        subset = []
-        def dfs(i):
-            if i >= len(nums):
+        current_list = []
+        def dfs(i, current_list, total):
+            if total == target:
+                ans.append(current_list.copy())
                 return
 
-            if sum(subset) == target:
-                ans.append(subset.copy())
+            if i >= len(nums) or total > target:
                 return
 
-            # include nums[i]
-            subset.append(nums[i])
-            dfs(i + 1)
+            current_list.append(nums[i])
+            dfs(i, current_list, total + nums[i])
+            current_list.pop()
+            dfs(i + 1, current_list, total)
 
-            # ignore nums[i]
-            subset.pop()
-            dfs(i + 1)
-
-        dfs(0)
+        dfs(0, current_list, 0)
         return ans
+
+
