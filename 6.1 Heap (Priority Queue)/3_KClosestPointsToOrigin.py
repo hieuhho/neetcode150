@@ -29,5 +29,18 @@
 #     1 <= k <= points.length <= 1000
 #     -100 <= points[i][0], points[i][1] <= 100
 
+import heapq
 class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+        distance = []
+        for x, y in points:
+            dist = (x ** 2) + (y ** 2)
+            distance.append([dist, x, y])
+
+        heapq.heapify(distance)
+        ans = []
+        while k > 0:
+            dist, x, y = heapq.heappop(distance)
+            ans.append([x, y])
+            k -= 1
+        return ans
