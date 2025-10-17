@@ -34,5 +34,18 @@
 #     1 <= stones.length <= 20
 #     1 <= stones[i] <= 100
 
+import heapq
 class Solution:
     def lastStoneWeight(self, stones: List[int]) -> int:
+        # Convert to negatives so we can simulate a max heap using Python’s min heap. heapq is ONLY minheap
+        stones = [-s for s in stones]
+        heapq.heapify(stones)
+        while len(stones) > 1:
+            n = heapq.heappop(stones)
+            m = heapq.heappop(stones)
+            print("first", n)
+            print("second", m)
+            if m > n:
+                print(n, m, m - n)
+                heapq.heappush(stones, m - n)
+        return stones[-1] if stones else 0
