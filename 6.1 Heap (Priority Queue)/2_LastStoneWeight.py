@@ -41,11 +41,9 @@ class Solution:
         stones = [-s for s in stones]
         heapq.heapify(stones)
         while len(stones) > 1:
-            n = heapq.heappop(stones)
-            m = heapq.heappop(stones)
-            print("first", n)
-            print("second", m)
-            if m > n:
-                print(n, m, m - n)
-                heapq.heappush(stones, m - n)
-        return stones[-1] if stones else 0
+            # Pop two smallest (most negative =  two heaviest stones)
+            first = heapq.heappop(stones)
+            second = heapq.heappop(stones)
+            if second > first:                              # second stone is smaller
+                heapq.heappush(stones, first - second)      # Push the new stone (difference), keeping negatives
+        return abs(stones[-1]) if stones else 0
