@@ -30,3 +30,7 @@ class Solution:
         while len(nums) > k:
             heapq.heappop(nums)
         return nums[0]
+
+class Solution:
+    def findKthLargest(self, nums, k):
+        return heapq.nlargest(k, nums)[-1]
