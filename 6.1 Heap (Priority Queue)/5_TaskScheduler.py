@@ -34,20 +34,34 @@ from collections import deque, Counter
 
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
+        # Count how many times each task appears
         count = Counter(tasks)
+
+        # Python's heapq is a min-heap, so store negative counts
+        # This way, the task with the *highest* remaining count is at heap[0]
         max_heap = [-cnt for cnt in count.values()]
         heapq.heapify(max_heap)
 
         time = 0
-        q = deque()
-        while max_heap or q:
-            time += 1
+        q = deque()  # cooldown queue -> stores [remaining_count, ready_time]
 
+        # Continue until all tasks are processed and cooldown queue is empty
+        while max_heap or q:
+            time += 1  # simulate one unit of CPU time
+
+            # STEP 1: run a task if one is available
             if max_heap:
-                cnt = 1 + heapq.heappop(max_heap)
+                # Pop task with largest remaining count (negative number)
+                cnt = 1 + heapq.heappop(max_heap)   # Add 1 because cnt is negative
                 if cnt:
+                    # If still tasks of this type left, put it into cooldown
+                    # ready_time = current time + n (when we can run it again)
                     q.append([cnt, time + n])
 
+            # STEP 2: check if the earliest task in cooldown is ready again
             if q and q[0][1] == time:
+                # Its cooldown expired, push it back into the heap
                 heapq.heappush(max_heap, q.popleft()[0])
+
+        # When heap and queue are empty, all tasks are done
         return time
