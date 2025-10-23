@@ -73,6 +73,7 @@ class Twitter:
             t, user_id, idx, tweet_id = heapq.heappop(users_tweets)
             feed.append(tweet_id)
 
+            # if there is more tweets, find latest - 1 and add to the queue
             if idx - 1 >= 0:
                 t2, tid2 = self.tweet_map[user_id][idx - 1]
                 heapq.heappush(users_tweets, (-t2, user_id, idx - 1, tid2))
