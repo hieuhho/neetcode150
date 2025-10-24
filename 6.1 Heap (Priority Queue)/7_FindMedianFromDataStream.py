@@ -40,30 +40,49 @@ import heapq
 class MedianFinder:
 
     def __init__(self):
-        self.left_half = []       # max heap, stores min -> mid | use neg num so [0]
-        self.right_half = []       # min heap stores mid -> max | use mid
+        self.small = []         # max heap, stores min -> mid | use neg num so [0]
+        self.large = []         # min heap, stores mid -> max | use mid
+
 
     def addNum(self, num: int) -> None:
-        middle = self.right_half[0] if self.right_half else float("inf")
-        if middle < num:
-            heapq.heappush(self.right_half, num)
+        if self.large and num > self.large[0]:
+            heapq.heappush(self.large, num)
         else:
-            heapq.heappush(self.left_half, -num)
+            heapq.heappush(self.small, -num)
 
-        if len(self.left_half) > len(self.right_half)  + 1:
-            # "left is longer"
-            heapq.heappush(self.right_half, -heapq.heappop(self.left_half))
-        elif len(self.right_half) > len(self.left_half)  + 1:
-            # "right is longer"
-            heapq.heappush(self.left_half, -heapq.heappop(self.right_half))
+        if len(self.small) > len(self.large)  + 1:
+            heapq.heappush(self.large, -heapq.heappop(self.small))
+        if len(self.large) > len(self.small)  + 1:
+            heapq.heappush(self.small, -heapq.heappop(self.large))
 
 
     def findMedian(self) -> float:
-        len_diff = len(self.left_half) - len(self.right_half)
+        if len(self.small) > len(self.large):
+            return -self.small[0]
+        if len(self.large) > len(self.small):
+            return self.large[0]
+        return (-self.small[0] + self.large[0]) / 2
 
-        if len(self.left_half) > len(self.right_half):
-            return -self.left_half[0]
-        if len(self.right_half) > len(self.left_half):
-            return self.right_half[0]
-        return (-self.left_half[0] + self.right_half[0]) / 2
 
+# this is slower but is more clear
+class MedianFinder:
+
+    def __init__(self):
+        self.left = []
+        self.right = []
+
+    def addNum(self, num: int) -> None:
+        # always put in left
+        heapq.heappush(self.left, -num)
+        # move max(left) into right
+        heapq.heappush(self.right, -heapq.heappop(self.left))
+        # keep size ~=, left holds extra int if odd len
+        if len(self.right) > len(self.left):
+            heapq.heappush(self.left, -heapq.heappop(self.right))
+
+    def findMedian(self) -> float:
+        # odd len, the median is on the left
+        if len(self.left) > len(self.right):
+            return -self.left[0]
+        # even len,
+        return (-self.left[0] + self.right[0]) / 2
