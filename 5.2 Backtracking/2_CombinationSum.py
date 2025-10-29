@@ -53,9 +53,12 @@ class Solution:
             if i >= len(nums) or total > target:
                 return
 
+            # Choose nums[i]: add it to the path
             current_list.append(nums[i])
+            # Since we can reuse the same number, stay at index i
             dfs(i, current_list, total + nums[i])
             current_list.pop()
+            # Skip nums[i]: move to the next number
             dfs(i + 1, current_list, total)
 
         dfs(0, current_list, 0)

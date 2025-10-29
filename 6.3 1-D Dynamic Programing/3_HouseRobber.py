@@ -42,7 +42,8 @@ class Solution:
         # we set i as the maximum amount
         # since we cannot rob adjacent house, the max is either i + (i - 2) or just i
         for i in range(2, len(nums)):
-            ans[i] = max(ans[i - 1], nums[i] + ans[i - 2])
+            ans[i] = max(ans[i - 1], nums[i] + ans[i - 2])      # ans[i - 1] = skip
+                                                                # nums[i] + ans[i-2] = rob this house (so skip the previous one)
         # last i is the largest amount
         return ans[-1]
 
