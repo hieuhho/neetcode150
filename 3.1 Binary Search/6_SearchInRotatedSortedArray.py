@@ -31,19 +31,21 @@
 
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        l, r = 0, len(nums) - 1
+        l = 0
+        r = len(nums) -1
+
         while l <= r:
             m = l + (r - l) // 2
             if nums[m] == target:
                 return m
-            if nums[l] <= nums[m]:
-                if nums[l] <= target < nums[m]:
-                    r = m - 1
+            if nums[l] <= nums[m]:                  # left half is sorted
+                if nums[l] <= target < nums[m]:     # target in sorted left half
+                    r = m -1
                 else:
-                    l = m + 1
-            else:
-                if nums[m] < target <= nums[r]:
+                    l = m + 1                       # target in right half
+            else:                                   # right half is sorted
+                if nums[m] < target <= nums[r]:     # target in sorted right half
                     l = m + 1
                 else:
-                    r = m - 1
+                    r = m - 1                       # target in left half
         return -1
