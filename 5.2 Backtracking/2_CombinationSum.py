@@ -57,6 +57,7 @@ class Solution:
             current_list.append(nums[i])
             # Since we can reuse the same number, stay at index i
             dfs(i, current_list, total + nums[i])
+            # Backtrack: remove the last number before exploring next choice
             current_list.pop()
             # Skip nums[i]: move to the next number
             dfs(i + 1, current_list, total)
