@@ -42,4 +42,6 @@ class Solution:
             for i, num in enumerate(triplet):
                 if num == target[i]:
                     found.add(i)
-        return len(found) == len(target)
+                if len(found) == 3:
+                    return True
+        return len(found) == 3
